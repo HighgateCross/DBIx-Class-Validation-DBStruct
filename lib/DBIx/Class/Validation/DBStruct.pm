@@ -7,6 +7,8 @@ BEGIN {
    use Carp qw/croak/;
 };
 
+our $VERSION = '0.03';
+
 sub validate {
    my $self = shift;
    my @check_columns = @_;
@@ -135,3 +137,66 @@ sub update {
 }
 
 1;
+__END__
+
+=encoding utf-8
+
+=head1 NAME
+
+DBIx::Class::Validation::DBStruct - Validation based on the column info from the ResultSource
+
+=head1 SYNOPSIS
+
+  package MyApp::Schema::Result::Artist;
+  use base 'DBIx::Class::ResultSet::Excel';
+
+  1;
+
+  use MyApp::Schema;
+  my $schema = MyApp::Schema->connect($dbi_dsn, $user, $pass, \%dbi_params);
+
+  # Query for all artists and put them in an array,
+  # or retrieve them as a result set object.
+  # $schema->resultset returns a DBIx::Class::ResultSet
+  my $results = $schema->resultset('Artist')->create({
+     name => 'Van Halen',
+  });
+
+  # IF creating Artist caused errors return those errors
+  if ($result->{errors}) {
+     return $result
+  } else {
+     # Else Return Successful
+     print "Artist Created";
+     return 1;
+  }
+
+=head1 DESCRIPTION
+
+DBIx::Class::Validation::DBStruct is a DBIx::Class component which adds Validation based on the structure of the ResultSource columns.
+
+=head1 AUTHOR
+
+Sean Zellmer E<lt>sean@lejeunerenard.comE<gt>
+L<http://www.lejeunenrenard.com>
+
+=head1 COPYRIGHT
+
+Copyright 2013- Sean Zellmer
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=head1 DEPENDENCIES
+
+The following modules are mandatory:
+
+=over 8
+
+=item L<DBIx::Class>
+
+=back
+
+=cut
